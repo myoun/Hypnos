@@ -1,5 +1,7 @@
 Hypnos
 ======
 
-## Now Voting
-Now, we are voting about new algorithm.
+## New Algorithm!
+```kt
+round(serverMemberNum / 2)
+```
