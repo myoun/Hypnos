@@ -1,4 +1,4 @@
 main : kr.myoung2.hypnos.Hypnos
 name : Hypnos
-version : $version
+version : 1.2.0
 author: myoung2

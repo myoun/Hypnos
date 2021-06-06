@@ -3,6 +3,7 @@ package kr.myoung2.hypnos
 import io.papermc.paper.event.player.PlayerDeepSleepEvent
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -24,8 +25,7 @@ class Hypnos : JavaPlugin() {
     }
 
 
-    var sleepingPlayers:Int = 0
-    val sleepingPlayersList = mutableListOf<Player>()
+    val sleepingPlayersList = mutableSetOf<Player>()
 
     override fun onEnable() {
         server.pluginManager.registerEvents(listener(),this)
@@ -35,14 +35,13 @@ class Hypnos : JavaPlugin() {
 
         @EventHandler
         fun onSleep(event:PlayerDeepSleepEvent) {
-            sleepingPlayers ++
             var onlinePlayers = 0
             for (pl in server.onlinePlayers)
                 if (pl.world.environment == World.Environment.NORMAL) onlinePlayers ++
 
-            val koreanComponent = Component.text("${event.player.name}님이 침대에 누웠습니다. ${sleepingPlayers}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
-            val englishComponent = Component.text("${event.player.name} is sleeping. ${sleepingPlayers}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
-            var canMorning = sleepingPlayers >= onlinePlayers.div2()
+            val koreanComponent = Component.text("${event.player.name}님이 침대에 누웠습니다. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
+            val englishComponent = Component.text("${event.player.name} is sleeping. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
+            var canMorning = sleepingPlayersList.size >= onlinePlayers.div2()
             sleepingPlayersList.add(event.player)
             for (player in server.onlinePlayers) {
                 when (player.locale()) {
@@ -63,6 +62,7 @@ class Hypnos : JavaPlugin() {
             for (world in server.worlds) {
                 if (world.environment == World.Environment.NORMAL) {
                     world.time = 1000
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"weather clear")
                 }
             }
             sleepingPlayersList.clear()
@@ -70,15 +70,14 @@ class Hypnos : JavaPlugin() {
 
         @EventHandler
         fun onWakeUp(event:PlayerBedLeaveEvent) {
-            sleepingPlayers --
+            sleepingPlayersList.remove(event.player)
             var onlinePlayers = 0
             for (pl in server.onlinePlayers)
                 if (pl.world.environment == World.Environment.NORMAL) onlinePlayers ++
-            val koreanComponent = Component.text("${event.player.name}님이 침대에서 일어났습니다. ${sleepingPlayers}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
-            val englishComponent = Component.text("${event.player.name} is out of bed. ${sleepingPlayers}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
+            val koreanComponent = Component.text("${event.player.name}님이 침대에서 일어났습니다. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
+            val englishComponent = Component.text("${event.player.name} is out of bed. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
             if (event.player.world.time in 0..12999) return
             if (event.player !in sleepingPlayersList) return
-            sleepingPlayersList.remove(event.player)
             for (player in server.onlinePlayers) {
                 when (player.locale()) {
                     Locale.KOREAN -> {
