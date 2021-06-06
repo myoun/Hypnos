@@ -59,13 +59,15 @@ class Hypnos : JavaPlugin() {
                     }
                 }
             }
-            for (world in server.worlds) {
-                if (world.environment == World.Environment.NORMAL) {
-                    world.time = 1000
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"weather clear")
+            if (canMorning) {
+                for (world in server.worlds) {
+                    if (world.environment == World.Environment.NORMAL) {
+                        world.time = 1000
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "weather clear")
+                    }
                 }
+                sleepingPlayersList.clear()
             }
-            sleepingPlayersList.clear()
         }
 
         @EventHandler
