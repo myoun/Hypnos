@@ -10,7 +10,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerBedEnterEvent
 import org.bukkit.event.player.PlayerBedLeaveEvent
 import org.bukkit.plugin.java.JavaPlugin
+import java.lang.Math.round
 import java.util.*
+import kotlin.math.roundToInt
 
 class Hypnos : JavaPlugin() {
 
@@ -95,5 +97,5 @@ class Hypnos : JavaPlugin() {
 }
 
 private fun Int.div2():Int {
-    return (this/2) as Int
+    return (this / 2).toDouble().roundToInt()
 }
