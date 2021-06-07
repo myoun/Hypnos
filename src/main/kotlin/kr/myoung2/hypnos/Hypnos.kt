@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.lang.Math.round
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 class Hypnos : JavaPlugin() {
 
@@ -38,11 +39,10 @@ class Hypnos : JavaPlugin() {
             var onlinePlayers = 0
             for (pl in server.onlinePlayers)
                 if (pl.world.environment == World.Environment.NORMAL) onlinePlayers ++
-
+            sleepingPlayersList.add(event.player)
             val koreanComponent = Component.text("${event.player.name}님이 침대에 누웠습니다. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
             val englishComponent = Component.text("${event.player.name} is sleeping. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
             var canMorning = sleepingPlayersList.size >= onlinePlayers.div2()
-            sleepingPlayersList.add(event.player)
             for (player in server.onlinePlayers) {
                 when (player.locale()) {
                     Locale.KOREAN -> {
@@ -63,7 +63,7 @@ class Hypnos : JavaPlugin() {
                 for (world in server.worlds) {
                     if (world.environment == World.Environment.NORMAL) {
                         world.time = 1000
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "weather clear")
+                        Bukkit.dispatchCommand(server.consoleSender,"weather clear ${config.getInt("weatherChange")}")
                     }
                 }
                 sleepingPlayersList.clear()
