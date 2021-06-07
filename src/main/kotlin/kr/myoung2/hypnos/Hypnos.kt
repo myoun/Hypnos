@@ -11,6 +11,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerBedEnterEvent
 import org.bukkit.event.player.PlayerBedLeaveEvent
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 import java.lang.Math.round
 import java.util.*
 import kotlin.math.roundToInt
@@ -29,6 +30,12 @@ class Hypnos : JavaPlugin() {
     val sleepingPlayersList = mutableSetOf<Player>()
 
     override fun onEnable() {
+        val configFile = File(dataFolder,"config.yml")
+        if (!configFile.exists()) {
+            config.set("weatherChange",2400)
+            config.save(configFile)
+        }
+        else config.load(configFile)
         server.pluginManager.registerEvents(listener(),this)
     }
 
