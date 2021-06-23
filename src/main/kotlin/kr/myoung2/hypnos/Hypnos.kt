@@ -8,14 +8,11 @@ import org.bukkit.World
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerBedEnterEvent
 import org.bukkit.event.player.PlayerBedLeaveEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
-import java.lang.Math.round
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 class Hypnos : JavaPlugin() {
 

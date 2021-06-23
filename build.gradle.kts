@@ -13,7 +13,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("net.kyori:adventure-api:4.7.0")
-    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
 }
 
 
