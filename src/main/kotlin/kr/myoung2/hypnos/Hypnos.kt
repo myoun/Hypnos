@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerBedLeaveEvent
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -27,12 +26,6 @@ class Hypnos : JavaPlugin() {
     val sleepingPlayersList = mutableSetOf<Player>()
 
     override fun onEnable() {
-        val configFile = File(dataFolder,"config.yml")
-        if (!configFile.exists()) {
-            config.set("weatherChange",2400)
-            config.save(configFile)
-        }
-        else config.load(configFile)
         server.pluginManager.registerEvents(listener(),this)
     }
 
@@ -44,8 +37,8 @@ class Hypnos : JavaPlugin() {
             for (pl in server.onlinePlayers)
                 if (pl.world.environment == World.Environment.NORMAL) onlinePlayers ++
             sleepingPlayersList.add(event.player)
-            val koreanComponent = Component.text("${event.player.name}님이 침대에 누웠습니다. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
-            val englishComponent = Component.text("${event.player.name} is sleeping. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
+            val koreanComponent = Component.text("${event.player.name}님이 침대에 누웠습니다. ${sleepingPlayersList.size}/${onlinePlayers}").color(NamedTextColor.GOLD)
+            val englishComponent = Component.text("${event.player.name} is sleeping. ${sleepingPlayersList.size}/${onlinePlayers}").color(NamedTextColor.GOLD)
             var canMorning = sleepingPlayersList.size >= onlinePlayers.div2()
             for (player in server.onlinePlayers) {
                 when (player.locale()) {
@@ -67,7 +60,7 @@ class Hypnos : JavaPlugin() {
                 for (world in server.worlds) {
                     if (world.environment == World.Environment.NORMAL) {
                         world.time = 1000
-                        Bukkit.dispatchCommand(server.consoleSender,"weather clear ${config.getInt("weatherChange")}")
+                        Bukkit.dispatchCommand(server.consoleSender,"weather thunder 1")
                     }
                 }
                 sleepingPlayersList.clear()
@@ -80,8 +73,8 @@ class Hypnos : JavaPlugin() {
             var onlinePlayers = 0
             for (pl in server.onlinePlayers)
                 if (pl.world.environment == World.Environment.NORMAL) onlinePlayers ++
-            val koreanComponent = Component.text("${event.player.name}님이 침대에서 일어났습니다. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
-            val englishComponent = Component.text("${event.player.name} is out of bed. ${sleepingPlayersList.size}/${onlinePlayers.div2()}").color(NamedTextColor.GOLD)
+            val koreanComponent = Component.text("${event.player.name}님이 침대에서 일어났습니다. ${sleepingPlayersList.size}/${onlinePlayers}").color(NamedTextColor.GOLD)
+            val englishComponent = Component.text("${event.player.name} is out of bed. ${sleepingPlayersList.size}/${onlinePlayers}").color(NamedTextColor.GOLD)
             if (event.player.world.time in 0..12999) return
             if (event.player !in sleepingPlayersList) return
             for (player in server.onlinePlayers) {
