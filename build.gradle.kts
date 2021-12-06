@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.6.0"
 }
 
-group = "kr.myoung2"
+group = "live.myoun"
 version = project.properties["version"] as String
 
 repositories {
@@ -12,8 +12,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.kyori:adventure-api:4.7.0")
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    implementation("net.kyori:adventure-api:4.9.3")
+    compileOnly("io.papermc.paper:paper-api:1.18-R0.1-SNAPSHOT")
 }
 
 
@@ -52,5 +52,6 @@ tasks {
 
     jar {
         from (shade.map { if (it.isDirectory) it else zipTree(it) })
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }

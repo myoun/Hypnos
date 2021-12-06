@@ -1,4 +1,4 @@
-main : kr.myoung2.hypnos.Hypnos
+main : live.myoun.hypnos.Hypnos
 name : Hypnos
-version : 1.4.1
+version : 1.5.0
 author: myoung2

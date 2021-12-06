@@ -1,4 +1,4 @@
-package kr.myoung2.hypnos
+package live.myoun.hypnos
 
 import io.papermc.paper.event.player.PlayerDeepSleepEvent
 import net.kyori.adventure.text.Component
